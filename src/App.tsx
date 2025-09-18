@@ -11,14 +11,37 @@ interface RouletteOption {
  * Main App component that renders the roulette game
  */
 function App() {
-  const rouletteOptions: RouletteOption[] = [
-    { id: 1, text: 'Opção 1', color: '#FF6B6B' },
-    { id: 2, text: 'Opção 2', color: '#4ECDC4' },
-    { id: 3, text: 'Opção 3', color: '#45B7D1' },
-    { id: 4, text: 'Opção 4', color: '#FFA726' },
-    { id: 5, text: 'Opção 5', color: '#AB47BC' }
-  ]
+  /**
+   * Generates a set of unique random colors
+   */
+  const generateUniqueColors = (count: number): string[] => {
+    const colors = [
+      '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA726', '#AB47BC',
+      '#66BB6A', '#EF5350', '#26A69A', '#42A5F5', '#FF7043',
+      '#EC407A', '#9CCC65', '#FFCA28', '#26C6DA', '#7E57C2',
+      '#FF8A65', '#29B6F6', '#66BB6A', '#FFEE58', '#8D6E63'
+    ]
+    
+    // Shuffle array and take first 'count' colors
+    const shuffled = [...colors].sort(() => Math.random() - 0.5)
+    return shuffled.slice(0, count)
+  }
 
+  /**
+   * Generates initial roulette options with random colors
+   */
+  const generateInitialOptions = (): RouletteOption[] => {
+    const colors = generateUniqueColors(5)
+    return [
+      { id: 1, text: 'Opção 1', color: colors[0] },
+      { id: 2, text: 'Opção 2', color: colors[1] },
+      { id: 3, text: 'Opção 3', color: colors[2] },
+      { id: 4, text: 'Opção 4', color: colors[3] },
+      { id: 5, text: 'Opção 5', color: colors[4] }
+    ]
+  }
+
+  const [rouletteOptions, setRouletteOptions] = useState<RouletteOption[]>(generateInitialOptions())
   const [isSpinning, setIsSpinning] = useState(false)
   const [rotation, setRotation] = useState(0)
   const [winner, setWinner] = useState<RouletteOption | null>(null)
@@ -33,6 +56,14 @@ function App() {
     setIsSpinning(true)
     setWinner(null)
 
+    // Generate new colors for all options
+    const newColors = generateUniqueColors(5)
+    const newOptions = rouletteOptions.map((option, index) => ({
+      ...option,
+      color: newColors[index]
+    }))
+    setRouletteOptions(newOptions)
+
     // Calculate random rotation (at least 5 full rotations + random angle)
     const minSpins = 5
     const randomAngle = Math.random() * 360
@@ -43,8 +74,8 @@ function App() {
     // Calculate which option wins based on final angle
     setTimeout(() => {
       // Simply pick a random winner since there's no pointer reference
-      const winnerIndex = Math.floor(Math.random() * rouletteOptions.length)
-      const winnerOption = rouletteOptions[winnerIndex]
+      const winnerIndex = Math.floor(Math.random() * newOptions.length)
+      const winnerOption = newOptions[winnerIndex]
       
       setWinner(winnerOption)
       setIsSpinning(false)
