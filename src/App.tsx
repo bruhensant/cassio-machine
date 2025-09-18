@@ -12,14 +12,14 @@ interface RouletteOption {
  */
 function App() {
   /**
-   * Generates a set of unique random colors
+   * Generates a set of unique dark horror colors
    */
   const generateUniqueColors = (count: number): string[] => {
     const colors = [
-      '#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA726', '#AB47BC',
-      '#66BB6A', '#EF5350', '#26A69A', '#42A5F5', '#FF7043',
-      '#EC407A', '#9CCC65', '#FFCA28', '#26C6DA', '#7E57C2',
-      '#FF8A65', '#29B6F6', '#66BB6A', '#FFEE58', '#8D6E63'
+      '#8B0000', '#2F1B14', '#4A0E4E', '#1A0A0A', '#2E2E2E',
+      '#5C0A0A', '#1F1F2E', '#3D1A78', '#0D1B2A', '#4B0000',
+      '#2C1810', '#4A1A4A', '#1C1C1C', '#5A0E00', '#2A1A5C',
+      '#3E0A0A', '#1A2B1A', '#4E1A1A', '#2A0A2A', '#1E0E1E'
     ]
     
     // Shuffle array and take first 'count' colors
@@ -85,8 +85,8 @@ function App() {
   return (
     <div className="app">
       <header className="app-header">
-        <h1>🎰 Roleta das Aflições</h1>
-        <p>Gire a roleta e descubra sua sorte!</p>
+        <h1>💀 Roleta do Destino Sombrio</h1>
+        <p>Gire a roleta... se você tiver coragem...</p>
       </header>
 
       <main className="main-content">
@@ -161,14 +161,14 @@ function App() {
               onClick={spinRoulette}
               disabled={isSpinning}
             >
-              {isSpinning ? 'Girando...' : 'Girar Roleta'}
+              {isSpinning ? 'Invocando...' : 'Invocar o Destino'}
             </button>
           </div>
         </div>
 
         {winner && (
           <div className="result-section">
-            <h2>🎉 Resultado!</h2>
+            <h2>⚰️ Seu Destino!</h2>
             <div 
               className="winner-display"
               style={{ backgroundColor: winner.color }}
